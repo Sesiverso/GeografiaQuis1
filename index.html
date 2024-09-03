@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz sobre Agricultura e Geografia</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e3f2fd;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-image: linear-gradient(135deg, #b2dfdb 0%, #80deea 100%);
+        }
+
+        h1 {
+            color: #004d40;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .question {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            max-width: 800px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .question:hover {
+            transform: translateY(-5px);
+        }
+
+        .question p {
+            font-size: 1.2em;
+            margin: 0 0 10px;
+            color: #004d40;
+        }
+
+        .question .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .question .options li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .question .options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #004d40;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #00251a;
+            transform: translateY(-3px);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #004d40;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        #leaderboard {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        #leaderboard h2 {
+            font-size: 2em;
+            color: #004d40;
+            margin-bottom: 20px;
+        }
+
+        #leaderboard ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #leaderboard li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Quiz sobre Agricultura e Geografia</h1>
+    
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Verificar Respostas</button>
+
+    <div id="result"></div>
+
+    <button id="viewLeaderboard" style="display: none;" onclick="showLeaderboard()">Ver Placar de Líderes</button>
+
+    <div id="leaderboard">
+        <h2>Placar de Líderes</h2>
+        <ul id="leaderboardList"></ul>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Qual é uma vantagem da agricultura industrial?",
+                options: [
+                    "Baixo impacto ambiental",
+                    "Alta produtividade",
+                    "Diversificação da produção",
+                    "Preservação da biodiversidade",
+                    "Menor uso de fertilizantes"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "Uma desvantagem da agricultura familiar é:",
+                options: [
+                    "Baixa produtividade em comparação com a agricultura industrial",
+                    "Alto uso de pesticidas",
+                    "Destruição em massa de habitats",
+                    "Dependência de monoculturas",
+                    "Maior custo de produção"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Qual é uma vantagem da agricultura familiar?",
+                options: [
+                    "Produção em larga escala",
+                    "Baixo custo de produção",
+                    "Conservação do meio ambiente",
+                    "Maior uso de fertilizantes químicos",
+                    "Uso intensivo de tecnologias"
+                ],
+                correctAnswer: 2
+            },
+            {
+                question: "Qual é um prejuízo da agricultura industrial?",
+                options: [
+                    "Contribuição significativa para a segurança alimentar",
+                    "Elevado uso de recursos naturais",
+                    "Redução dos custos de alimentos",
+                    "Aumento da diversidade de culturas",
+                    "Preservação do solo"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "Qual destas é uma característica da agricultura familiar?",
+                options: [
+                    "Dependência de grandes máquinas",
+                    "Foco na exportação",
+                    "Produção em pequenas propriedades",
+                    "Alto uso de tecnologias avançadas",
+                    "Monoculturas extensivas"
+                ],
+                correctAnswer: 2
+            },
+            {
+                question: "A agricultura industrial é conhecida por:",
+                options: [
+                    "Reduzir a erosão do solo",
+                    "Promover a agricultura sustentável",
+                    "Intensificar o uso de pesticidas",
+                    "Ser praticada principalmente por pequenas famílias",
+                    "Conservar recursos naturais"
+                ],
+                correctAnswer: 2
+            },
+            {
+                question: "Uma desvantagem da agricultura familiar é:",
+                options: [
+                    "Baixo rendimento financeiro",
+                    "Uso intensivo de agroquímicos",
+                    "Baixa produção de alimentos saudáveis",
+                    "Alta emissão de gases de efeito estufa",
+                    "Dependência de monoculturas"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Quais cidades do Nordeste eram importantes para a produção de cana de açúcar no século XVII?",
+                options: [
+                    "Salvador e Recife",
+                    "São Luís e Fortaleza",
+                    "Natal e João Pessoa",
+                    "Aracaju e Maceió",
+                    "Terra Nova e Porto Seguro"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Qual destas cidades não era conhecida pela produção de cana de açúcar no século XVII?",
+                options: [
+                    "Recife",
+                    "São Luís",
+                    "Salvador",
+                    "João Pessoa",
+                    "Aracaju"
+                ],
+                correctAnswer: 4
+            }
+        ];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function loadQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = '';
+            shuffle(questions);
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+
+                const questionText = document.createElement('p');
+                questionText.innerText = `${index + 1}. ${q.question}`;
+                questionDiv.appendChild(questionText);
+
+                shuffle(q.options);
+                
+                const optionsList = document.createElement('ul');
+                optionsList.className = 'options';
+                
+                q.options.forEach((option, i) => {
+                    const optionItem = document.createElement('li');
+                    const optionInput = document.createElement('input');
+                    optionInput.type = 'radio';
+                    optionInput.name = `question${index}`;
+                    optionInput.value = i;
+                    optionItem.appendChild(optionInput);
+
+                    const optionLabel = document.createElement('label');
+                    optionLabel.innerText = option;
+                    optionItem.appendChild(optionLabel);
+
+                    optionsList.appendChild(optionItem);
+                });
+
+                questionDiv.appendChild(optionsList);
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            const startTime = performance.now();
+
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption && parseInt(selectedOption.value) === q.correctAnswer) {
+                    score++;
+                }
+            });
+
+            const elapsedTime = (performance.now() - startTime) / 1000; // Calcula o tempo em segundos
+
+            document.getElementById('result').innerText = `Você acertou ${score} de ${questions.length} perguntas. Tempo gasto: ${elapsedTime.toFixed(2)} segundos.`;
+
+            // Exibir placar de líderes
+            const leaderboard = document.getElementById('leaderboard');
+            leaderboard.style.display = 'block';
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = `<li>Você: ${score} pontos em ${elapsedTime.toFixed(2)} segundos</li>`;
+            document.getElementById('viewLeaderboard').style.display = 'block';
+        }
+
+        function showLeaderboard() {
+            // Esta função pode ser usada para mostrar um placar de líderes real se implementado
+        }
+
+        loadQuiz();
+    </script>
+
+</body>
+</html>
